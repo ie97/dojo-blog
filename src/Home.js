@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
 import BlogList from "./Bloglist";
+import useFetch from "./useFetch";
 
 const Home = () => {
   // const handleClick = (e) => {
@@ -25,40 +25,21 @@ const Home = () => {
 
     //const [name, setName] = useState('mario');
 
-  const [blogs, setBlogs] = useState(null);
-  const [isPending, setIsPending] = useState(true);
-  const [error, setError] = useState(null);
+  
 
   // const handleDelete = (id) => {
   //   const newBlogs = blogs.filter(blog => blog.id !== id);
   //   setBlogs(newBlogs);
   // }
 
-  useEffect(() => {
-    setTimeout(() => {
-      fetch('http://localhost:8000/blogs')
-        .then(res => {
-          if (!res.ok) {
-            throw Error('could not fetch the data for that resource');
-          }
-          return res.json();
-        })
-        .then(data => {
-          setBlogs(data);
-          setIsPending(false);
-          setError(null);
-        })
-        .catch(err => {
-          setError(err.message);
-          setIsPending(false);
-        })
-    }, 200);
-  }, []);
+  
   
   // useEffect(() => {
   //   console.log('use effect ran');
   //   console.log(name);
   // }, [name]); 
+
+  const { data: blogs, isPending, error} = useFetch('http://localhost:8000/blogs')
 
   return (
     <div className="home">
